@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alex & Sarah - Wedding Invitation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --dark-gold: #B8860B;
+            --ivory: #FFFFF0;
+            --black: #222222;
+            --gray: #444444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--ivory);
+            color: var(--black);
+            overflow-x: hidden;
+        }
+
+        .luxury-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--ivory);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease-out;
+        }
+
+        .loading-screen h1 {
+            color: var(--gold);
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+        }
+
+        .loader {
+            width: 80px;
+            height: 80px;
+            border: 8px solid rgba(212, 175, 55, 0.3);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Header */
+        header {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') no-repeat center center/cover;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .header-content {
+            z-index: 1;
+            animation: fadeIn 2s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .couple-names {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            color: var(--gold);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .wedding-date {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            letter-spacing: 3px;
+        }
+
+        .invitation-text {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 2rem;
+            animation: bounce 2s infinite;
+            cursor: pointer;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+            40% { transform: translateY(-20px) translateX(-50%); }
+            60% { transform: translateY(-10px) translateX(-50%); }
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 2.5rem;
+            color: var(--gold);
+            position: relative;
+        }
+
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background: var(--gold);
+            margin: 15px auto;
+        }
+
+        /* Couple Section */
+        .couple-section {
+            background-color: white;
+        }
+
+        .couple-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .couple {
+            text-align: center;
+            width: 300px;
+            margin: 20px;
+            position: relative;
+        }
+
+        .couple-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--gold);
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .couple:hover .couple-image {
+            transform: scale(1.05);
+        }
+
+        .couple-name {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--black);
+        }
+
+        .couple-title {
+            font-size: 1rem;
+            color: var(--gray);
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .couple-social {
+            margin-top: 15px;
+        }
+
+        .couple-social a {
+            color: var(--gold);
+            margin: 0 10px;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .couple-social a:hover {
+            color: var(--dark-gold);
+        }
+
+        /* Countdown */
+        .countdown-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') no-repeat center center/cover;
+            color: white;
+            text-align: center;
+        }
+
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .countdown-box {
+            margin: 10px;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(212, 175, 55, 0.2);
+            border: 1px solid var(--gold);
+            border-radius: 5px;
+            backdrop-filter: blur(5px);
+        }
+
+        .countdown-value {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .countdown-label {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Event Details */
+        .event-details {
+            background-color: white;
+        }
+
+        .event-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .event {
+            width: 300px;
+            margin: 20px;
+            text-align: center;
+            padding: 30px;
+            background-color: var(--ivory);
+            border: 1px solid var(--gold);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .event:hover {
+            transform: translateY(-10px);
+        }
+
+        .event-icon {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 20px;
+        }
+
+        .event-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--black);
+        }
+
+        .event-info {
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        /* RSVP */
+        .rsvp-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1949&q=80') no-repeat center center/cover;
+            color: white;
+            text-align: center;
+        }
+
+        .rsvp-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border: 1px solid var(--gold);
+            backdrop-filter: blur(5px);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--gold);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: none;
+        }
+
+        .submit-btn {
+            background-color: var(--gold);
+            color: var(--black);
+            border: none;
+            padding: 15px 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--dark-gold);
+        }
+
+        /* Gallery */
+        .gallery-section {
+            background-color: white;
+        }
+
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-gap: 20px;
+        }
+
+        .gallery-item {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+            color: white;
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--black);
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .footer-text {
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .footer-social a {
+            color: var(--gold);
+            margin: 0 15px;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-social a:hover {
+            color: white;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: auto;
+            max-height: 90vh;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .couple-names {
+                font-size: 3rem;
+            }
+
+            .wedding-date {
+                font-size: 1.2rem;
+            }
+
+            .invitation-text {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .countdown-box {
+                width: 100px;
+                height: 100px;
+            }
+
+            .countdown-value {
+                font-size: 2rem;
+            }
+
+            .rsvp-form {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+        <h1 class="luxury-font">Alex & Sarah</h1>
+        <div class="loader"></div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <h1 class="couple-names luxury-font">Alex <span style="font-size: 3rem;">&</span> Sarah</h1>
+            <p class="wedding-date">15 DECEMBER 2023</p>
+            <p class="invitation-text">Together with their families, we joyfully invite you to celebrate our wedding as we begin our new life together.</p>
+            <a href="#rsvp" class="submit-btn" style="text-decoration: none;">RSVP</a>
+        </div>
+        <div class="scroll-down" onclick="scrollToSection('.couple-section')">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </header>
+
+    <!-- Couple Section -->
+    <section class="couple-section" id="couple">
+        <div class="container">
+            <h2 class="section-title luxury-font">The Couple</h2>
+            <div class="couple-container">
+                <div class="couple">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Groom" class="couple-image">
+                    <h3 class="couple-name luxury-font">Alexander</h3>
+                    <p class="couple-title">The Groom</p>
+                    <p>Alex is a successful entrepreneur who loves adventure and fine wine. He proposed during a hot air balloon ride at sunset.</p>
+                    <div class="couple-social">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="couple">
+                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Bride" class="couple-image">
+                    <h3 class="couple-name luxury-font">Sarah</h3>
+                    <p class="couple-title">The Bride</p>
+                    <p>Sarah is a talented interior designer with a passion for art and travel. She said "yes" before Alex could finish his sentence.</p>
+                    <div class="couple-social">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Countdown Section -->
+    <section class="countdown-section">
+        <div class="container">
+            <h2 class="section-title luxury-font">Countdown</h2>
+            <div class="countdown-container">
+                <div class="countdown-box">
+                    <div class="countdown-value" id="days">00</div>
+                    <div class="countdown-label">Days</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-value" id="hours">00</div>
+                    <div class="countdown-label">Hours</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-value" id="minutes">00</div>
+                    <div class="countdown-label">Minutes</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-value" id="seconds">00</div>
+                    <div class="countdown-label">Seconds</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Event Details -->
+    <section class="event-details" id="events">
+        <div class="container">
+            <h2 class="section-title luxury-font">Event Details</h2>
+            <div class="event-container">
+                <div class="event">
+                    <div class="event-icon">
+                        <i class="fas fa-ring"></i>
+                    </div>
+                    <h3 class="event-title luxury-font">Wedding Ceremony</h3>
+                    <p class="event-info"><i class="far fa-calendar-alt"></i> December 18, 2025</p>
+                    <p class="event-info"><i class="far fa-clock"></i> 4:00 PM</p>
+                    <p class="event-info"><i class="fas fa-map-marker-alt"></i> St. Mary's Cathedral</p>
+                    <p class="event-info">123 Chapel Street, New York</p>
+                </div>
+                <div class="event">
+                    <div class="event-icon">
+                        <i class="fas fa-glass-cheers"></i>
+                    </div>
+                    <h3 class="event-title luxury-font">Reception</h3>
+                    <p class="event-info"><i class="far fa-calendar-alt"></i> December 18, 2025</p>
+                    <p class="event-info"><i class="far fa-clock"></i> 6:30 PM</p>
+                    <p class="event-info"><i class="fas fa-map-marker-alt"></i> The Grand Ballroom</p>
+                    <p class="event-info">456 Luxury Avenue, New York</p>
+                </div>
+                <div class="event">
+                    <div class="event-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3 class="event-title luxury-font">Brunch</h3>
+                    <p class="event-info"><i class="far fa-calendar-alt"></i> December 18, 2025</p>
+                    <p class="event-info"><i class="far fa-clock"></i> 11:00 AM</p>
+                    <p class="event-info"><i class="fas fa-map-marker-alt"></i> The Garden Terrace</p>
+                    <p class="event-info">789 Park Boulevard, New York</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery -->
+    <section class="gallery-section" id="gallery">
+        <div class="container">
+            <h2 class="section-title luxury-font">Our Gallery</h2>
+            <div class="gallery-container">
+                <div class="gallery-item" onclick="openModal('https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')">
+                    <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Engagement Photo">
+                    <div class="gallery-caption">
+                        <h3>Engagement Photo</h3>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')">
+                    <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Proposal">
+                    <div class="gallery-caption">
+                        <h3>The Proposal</h3>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1949&q=80')">
+                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1949&q=80" alt="First Date">
+                    <div class="gallery-caption">
+                        <h3>First Date</h3>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')">
+                    <img src="https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Vacation">
+                    <div class="gallery-caption">
+                        <h3>Italian Vacation</h3>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')">
+                    <img src="https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Anniversary">
+                    <div class="gallery-caption">
+                        <h3>First Anniversary</h3>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openModal('https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')">
+                    <img src="https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="Family Gathering">
+                    <div class="gallery-caption">
+                        <h3>Family Gathering</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RSVP -->
+    <section class="rsvp-section" id="rsvp">
+        <div class="container">
+            <h2 class="section-title luxury-font">RSVP</h2>
+            <p style="margin-bottom: 30px; max-width: 800px; margin-left: auto; margin-right: auto;">Kindly respond by November 1st, 2023</p>
+            <form class="rsvp-form" id="rsvpForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="guests">Number of Guests</label>
+                    <select id="guests" name="guests" required>
+                        <option value="" disabled selected>Select number</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5+</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="attending">Will you be attending?</label>
+                    <select id="attending" name="attending" required>
+                        <option value="" disabled selected>Select option</option>
+                        <option value="yes">Yes, with pleasure</option>
+                        <option value="no">No, regretfully</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message (Optional)</label>
+                    <textarea id="message" name="message"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Submit Response</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p class="footer-text">"A successful marriage requires falling in love many times, always with the same person."</p>
+            <p class="footer-text">- Mignon McLaughlin</p>
+            <div class="footer-social">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-pinterest"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+            <p class="footer-text" style="margin-top: 30px;">&copy; 2023 Alex & Sarah Wedding. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Image Modal -->
+    <div class="modal" id="imageModal">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <div class="modal-content">
+            <img id="modalImage" src="" alt="">
+        </div>
+    </div>
+
+    <script>
+        // Loading Screen
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.querySelector('.loading-screen').style.opacity = '0';
+                setTimeout(function() {
+                    document.querySelector('.loading-screen').style.display = 'none';
+                }, 1000);
+            }, 1500);
+        });
+
+        // Countdown Timer
+        function updateCountdown() {
+            const weddingDate = new Date('December 18, 2025 16:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').innerHTML = days < 10 ? '0' + days : days;
+            document.getElementById('hours').innerHTML = hours < 10 ? '0' + hours : hours;
+            document.getElementById('minutes').innerHTML = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById('seconds').innerHTML = seconds < 10 ? '0' + seconds : seconds;
+
+            if (distance < 0) {
+                clearInterval(countdownTimer);
+                document.getElementById('days').innerHTML = '00';
+                document.getElementById('hours').innerHTML = '00';
+                document.getElementById('minutes').innerHTML = '00';
+                document.getElementById('seconds').innerHTML = '00';
+            }
+        }
+
+        const countdownTimer = setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Smooth Scrolling
+        function scrollToSection(section) {
+            document.querySelector(section).scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Gallery Modal
+        function openModal(imageSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modal.style.display = 'flex';
+            modalImg.src = imageSrc;
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside the image
+        window.onclick = function(event) {
+            const modal = document.getElementById('imageModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Form Submission
+        document.getElementById('rsvpForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('name').value;
+            const attending = document.getElementById('attending').value;
+            
+            // Show alert (in a real app, you would send this data to a server)
+            if (attending === 'yes') {
+                alert(`Thank you, ${name}! We're delighted you'll be joining us on our special day.`);
+            } else {
+                alert(`Thank you for letting us know, ${name}. We'll miss you at the wedding.`);
+            }
+            
+            // Reset form
+            this.reset();
+        });
+
+        // Scroll reveal animation
+        window.addEventListener('scroll', revealOnScroll);
+
+        function revealOnScroll() {
+            const sections = document.querySelectorAll('section');
+            
+            for (let i = 0; i < sections.length; i++) {
+                const windowHeight = window.innerHeight;
+                const revealTop = sections[i].getBoundingClientRect().top;
+                const revealPoint = 150;
+                
+                if (revealTop < windowHeight - revealPoint) {
+                    sections[i].classList.add('active');
+                }
+            }
+        }
+
+        // Initialize scroll reveal
+        revealOnScroll();
+    </script>
+</body>
+</html>
